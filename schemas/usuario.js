@@ -27,7 +27,7 @@ const usuarioSchema = Persona.discriminator('Usuario', new Schema({
         required: [true,'requerido'],
         enum :{
             values: ['ACTIVO', 'INACTIVO'],
-            message:'No valido, se espera ACTIVO, INACTIVO'
+            message:'estado invalido, se espera ACTIVO, INACTIVO'
         }
     }
 }, options));
