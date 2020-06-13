@@ -3,15 +3,18 @@ const mongoose = require('mongoose');
 const RestError = require('../rest-error');
 const Router = express.Router();
 
-const Usuario = require('../schemas/usuario');
+const Medico = require('../schemas/medico');
 
-Router.post('/usuarios', function (req, res, next) {
-    Usr = new Usuario(req.body);
-    Usr.save(function (err, doc) {
+// CREAR MEDICO
+Router.post('/medicos', function (req, res, next) {
+    Medico = new Medico(req.body);
+    Medico.save(function (err, doc) {
         if (err) {
             if (err.code == 11000) {
+                //https://www.npmjs.com/package/mongoose-beautiful-unique-validation
+                //si quiero mensaje personalizado.
                 next(new RestError(err.message, 409));
-            } else {
+            } else {
                 errors = {};
                 for (const key in err.errors) {
                     if (err.errors[key].constructor.name != 'ValidationError') {
@@ -24,20 +27,6 @@ Router.post('/usuarios', function (req, res, next) {
             res.json(doc);
         }
     });
-});
-
-Router.get('/usuarios', function (req, res) {
-    res.json([]);
-    res.status(200);
-});
-
-Router.get('/usuarios/:id', function (req, res) {
-    const id = req.params.id;
-    const usuario = usuarios.find(usuario => usuario.id == id);
-    if (!usuario) {
-        throw new RestError('Recurso no encontado', 404);
-    }
-    res.json(usuario);
 });
 
 module.exports = Router;
