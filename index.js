@@ -54,7 +54,7 @@ mongoose.connection.on('error', error => {
 }); 
 
 app.use(express.json());
-app.use(authorize);
+//app.use(authorize);
 app.use(usuario);
 app.use(login);
 app.use(medico);
