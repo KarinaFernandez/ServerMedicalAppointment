@@ -31,11 +31,7 @@ Router.post('/usuarios', function (req, res, next) {
 
 // OBTENER USUARIOS
 Router.get('/usuarios', function (req, res) {
-    let query = {};
-    if(req.query.documento){
-        query['documento'] = new RegExp(req.query.documento, "i");
-    }
-    Query = Usuario.find(query).sort('documento');
+    Query = Usuario.sort('documento');
     Query.exec(function(error, libros){
         if(!error){
             res.json(usuarios);
