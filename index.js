@@ -10,33 +10,33 @@ const jwt          = require('jsonwebtoken');
 
 require('dotenv').config(); 
 
-const authorize = function(req, res, next){
-    if ('/login' == req.path){
-        next();
-        return;
-    }
-    const authHeader    = req.headers['authorization'];
+// const authorize = function(req, res, next){
+//     if ('/login' == req.path){
+//         next();
+//         return;
+//     }
+//     const authHeader    = req.headers['authorization'];
 
-    if(!authHeader){
-        next(new RestError('Login requerido para continuar', 401));
-        return;
-    }
-    const token = authHeader.split(' ')[1];
+//     if(!authHeader){
+//         next(new RestError('Login requerido para continuar', 401));
+//         return;
+//     }
+//     const token = authHeader.split(' ')[1];
 
-    if(!token){
-        next(new RestError('Requiere esta logueado para para continuar', 401));
-        return;
-    }
+//     if(!token){
+//         next(new RestError('Requiere esta logueado para para continuar', 401));
+//         return;
+//     }
     
-    jwt.verify(token, process.env.TOKEN_SECRET, function(err, email){
-        if(err){
-            next(new RestError(err.message, 401));
-            return;
-        }
-        req.user = email;
-        next();
-    });
-}
+//     jwt.verify(token, process.env.TOKEN_SECRET, function(err, email){
+//         if(err){
+//             next(new RestError(err.message, 401));
+//             return;
+//         }
+//         req.user = email;
+//         next();
+//     });
+// }
 
 //Conectar a DB
 const uri = process.env.MONGODB_URI;
