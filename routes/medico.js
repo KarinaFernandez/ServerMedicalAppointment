@@ -11,8 +11,6 @@ Router.post('/medicos', function (req, res, next) {
     Medico.save(function (err, doc) {
         if (err) {
             if (err.code == 11000) {
-                //https://www.npmjs.com/package/mongoose-beautiful-unique-validation
-                //si quiero mensaje personalizado.
                 next(new RestError(err.message, 409));
             } else {
                 errors = {};

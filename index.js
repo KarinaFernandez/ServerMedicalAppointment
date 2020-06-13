@@ -6,37 +6,37 @@ const usuario      = require('./routes/usuario');
 const login      = require('./routes/login');
 const medico      = require('./routes/medico');
 const comentario      = require('./routes/comentario');
-// const jwt          = require('jsonwebtoken');
+const jwt          = require('jsonwebtoken');
 
 require('dotenv').config(); 
 
-// const authorize = function(req, res, next){
-//     if ('/login' == req.path){
-//         next();
-//         return;
-//     }
-//     const authHeader    = req.headers['authorization'];
+const authorize = function(req, res, next){
+    if ('/login' == req.path){
+        next();
+        return;
+    }
+    const authHeader    = req.headers['authorization'];
 
-//     if(!authHeader){
-//         next(new RestError('Login requerido para continuar', 401));
-//         return;
-//     }
-//     const token = authHeader.split(' ')[1];
+    if(!authHeader){
+        next(new RestError('Login requerido para continuar', 401));
+        return;
+    }
+    const token = authHeader.split(' ')[1];
 
-//     if(!token){
-//         next(new RestError('Requiere esta logueado para para continuar', 401));
-//         return;
-//     }
+    if(!token){
+        next(new RestError('Requiere esta logueado para para continuar', 401));
+        return;
+    }
     
-//     jwt.verify(token, process.env.TOKEN_SECRET, function(err, email){
-//         if(err){
-//             next(new RestError(err.message, 401));
-//             return;
-//         }
-//         req.user = email;
-//         next();
-//     });
-// }
+    jwt.verify(token, process.env.TOKEN_SECRET, function(err, email){
+        if(err){
+            next(new RestError(err.message, 401));
+            return;
+        }
+        req.user = email;
+        next();
+    });
+}
 
 //Conectar a DB
 const uri = process.env.MONGODB_URI;
@@ -54,7 +54,7 @@ mongoose.connection.on('error', error => {
 }); 
 
 app.use(express.json());
-// app.use(authorize);
+app.use(authorize);
 app.use(usuario);
 app.use(login);
 app.use(medico);
@@ -65,7 +65,7 @@ app.use((err,req,res,next) => {
     res.json({error:err.message});
 });
 
-// 3003
+// 3000
 app.listen(process.env.PORT, function(){
     console.log(`Escuchando puerto ${process.env.PORT}`);
 });

@@ -7,6 +7,7 @@ const Usuario = require('../schemas/usuario');
 
 Router.post('/usuarios', function (req, res, next) {
     Usr = new Usuario(req.body);
+
     Usr.save(function (err, doc) {
         if (err) {
             if (err.code == 11000) {
