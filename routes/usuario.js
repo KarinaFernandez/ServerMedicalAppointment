@@ -33,6 +33,11 @@ Router.post('/usuarios', function (req, res, next) {
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
     Query = Usuario.findById(id);
+    Query.populate({
+        path: 'usuario',
+        select: '-contraseña',
+        options: {sort: {apellido:1}}
+        }); 
     Query.exec(function (err, usuario) {
         if (!err) {
             res.json(usuario);
