@@ -29,12 +29,13 @@ Router.post('/usuarios', function (req, res, next) {
     });
 });
 
-// OBTENER USUARIOS
-Router.get('/usuarios', function (req, res) {
-    Query = Usuario.sort('documento');
-    Query.exec(function(error, libros){
-        if(!error){
-            res.json(usuarios);
+// OBTENER USUARIO por ID
+Router.get('/usuarios/:id', function (req, res) {
+    const id = req.params.id;
+    Query = Usuario.findById(id);
+    Query.exec(function (err, usuario) {
+        if (!err) {
+            res.json(usuario);
         }
     });
 });
