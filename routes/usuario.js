@@ -38,9 +38,7 @@ Router.get('/usuarios', function (req, res) {
 // OBTENER USUARIO POR ID
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
-    //new:true para devolver documento modificado.
-    //runValidators:true para ejecutar validaciones, otra forma primero find documento, setear parametros y luego save(validators).
-    Persona.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
+    Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
             if (usuario) {
                 res.json(usuario)
