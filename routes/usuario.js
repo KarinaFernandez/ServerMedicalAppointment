@@ -29,10 +29,18 @@ Router.post('/usuarios', function (req, res, next) {
     });
 });
 
-// OBTENER USUARIOS
+// OBTENER TODOS LOS USUARIOS (Acepta Doc Identidad)
 Router.get('/usuarios', function (req, res) {
-    res.json([]);
-    res.status(200);
+    let query = {};
+    if(req.query.documento){
+        query['documento'] = new RegExp(req.query.documento, "i");
+    }
+    Query = Usuario.find(query).sort('documento');
+    Query.exec(function(error, usuarios){
+        if(!error){
+            res.json(usuario);
+        }
+    });
 });
 
 // ACTUALIZAR USUARIO
