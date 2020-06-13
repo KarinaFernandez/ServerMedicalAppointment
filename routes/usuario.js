@@ -29,16 +29,16 @@ Router.post('/usuarios', function (req, res, next) {
     });
 });
 
-// OBTENER TODOS LOS USUARIOS (Acepta Doc Identidad)
+// OBTENER USUARIOS
 Router.get('/usuarios', function (req, res) {
     let query = {};
     if(req.query.documento){
         query['documento'] = new RegExp(req.query.documento, "i");
     }
     Query = Usuario.find(query).sort('documento');
-    Query.exec(function(error, usuarios){
+    Query.exec(function(error, libros){
         if(!error){
-            res.json(usuario);
+            res.json(usuarios);
         }
     });
 });
