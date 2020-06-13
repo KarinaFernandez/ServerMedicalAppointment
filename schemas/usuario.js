@@ -7,7 +7,6 @@ const Persona = mongoose.model('Persona', require('./persona'));
 const usuarioSchema = Persona.discriminator('Usuario', new Schema({
     documento: {
         type : Number,
-        index: true,
         required: [true,'requerido'],
         validate: {
             validator: function(value) {

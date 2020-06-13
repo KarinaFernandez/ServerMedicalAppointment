@@ -5,6 +5,7 @@ const Router = express.Router();
 
 const Usuario = require('../schemas/usuario');
 
+// CREAR USUARIO
 Router.post('/usuarios', function (req, res, next) {
     Usr = new Usuario(req.body);
 
@@ -22,24 +23,32 @@ Router.post('/usuarios', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
-            doc.pwd = undefined; 
+            doc.pwd = undefined;
             res.json(doc);
         }
     });
 });
 
+// OBTENER USUARIOS
 Router.get('/usuarios', function (req, res) {
     res.json([]);
     res.status(200);
 });
 
+// OBTENER USUARIO POR ID
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
-    const usuario = usuarios.find(usuario => usuario.id == id);
-    if (!usuario) {
-        throw new RestError('Recurso no encontado', 404);
-    }
-    res.json(usuario);
+    // const usuario = usuarios.find(usuario => usuario.id == id);
+    // if (!usuario) {
+    //     throw new RestError('Recurso no encontado', 404);
+    // }
+    // res.json(usuario);
+    Query = Usuario.findById(id);
+    Query.exec(function (err, libro) {
+        if (!err) {
+            res.json(usuario);
+        }
+    });
 });
 
 module.exports = Router;

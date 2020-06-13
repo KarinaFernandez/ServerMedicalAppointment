@@ -18,6 +18,7 @@ const personaSchema = new Schema({
         type: String,
         required: [true, 'requerido'],
         unique: true,
+        index: true,
         match: [/\S+@\S+\.\S+/, 'email invalido'],
     },
     contraseña: {
