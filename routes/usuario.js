@@ -22,6 +22,7 @@ Router.post('/usuarios', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
+            doc.pwd = undefined; 
             res.json(doc);
         }
     });

@@ -7,8 +7,9 @@ const Medico = require('../schemas/medico');
 
 // CREAR MEDICO
 Router.post('/medicos', function (req, res, next) {
-    Medico = new Medico(req.body);
-    Medico.save(function (err, doc) {
+    Medi = new Medico(req.body);
+
+    Medi.save(function (err, doc) {
         if (err) {
             if (err.code == 11000) {
                 next(new RestError(err.message, 409));
@@ -22,6 +23,7 @@ Router.post('/medicos', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
+            doc.pwd = undefined; 
             res.json(doc);
         }
     });
