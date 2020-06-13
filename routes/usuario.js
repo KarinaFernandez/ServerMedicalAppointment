@@ -38,15 +38,21 @@ Router.get('/usuarios', function (req, res) {
 // OBTENER USUARIO POR ID
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
-    // const usuario = usuarios.find(usuario => usuario.id == id);
-    // if (!usuario) {
-    //     throw new RestError('Recurso no encontado', 404);
-    // }
-    // res.json(usuario);
-    Query = Usuario.findById(id);
-    Query.exec(function (err, libro) {
+    //new:true para devolver documento modificado.
+    //runValidators:true para ejecutar validaciones, otra forma primero find documento, setear parametros y luego save(validators).
+    Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
-            res.json(usuario);
+            if (usuario) {
+                res.json(usuario)
+            } else {
+                next(new RestError('recurso no encontrado', 404));
+            }
+        } else {
+            errors = {};
+            for (const key in err.errors) {
+                errors[key] = err.errors[key].message;
+            }
+            next(new RestError(errors, 400));
         }
     });
 });
