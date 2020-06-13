@@ -35,12 +35,13 @@ Router.get('/usuarios', function (req, res) {
     res.status(200);
 });
 
-// OBTENER USUARIO POR ID
-Router.get('/usuarios/:id', function (req, res) {
+// ACTUALIZAR USUARIO
+Router.put('/usuarios/:id', function (req, res) {
     const id = req.params.id;
     Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
             if (usuario) {
+                usuario.pwd = undefined;
                 res.json(usuario)
             } else {
                 next(new RestError('recurso no encontrado', 404));
