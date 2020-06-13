@@ -20,7 +20,7 @@ const usuarioSchema = Persona.discriminator('Usuario', new Schema({
         type: Number,
         unique: true,
         required: [true,'requerido'],
-        match: [/^(\([0-9]{3}\)\s*|[0-9]{3}\-)[0-9]{3}-[0-9]{4}$/, 'teléfono invalido']
+        match: [/^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,3})|(\(?\d{2,3}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$/, 'teléfono invalido']
     },
     estado: {
         type: String,
