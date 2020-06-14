@@ -4,6 +4,7 @@ const RestError = require('../rest-error');
 const Router = express.Router();
 
 const Usuario = require('../schemas/usuario');
+const usuarioSchema = require('../schemas/usuario');
 
 // CREAR USUARIO
 Router.post('/usuarios', function (req, res, next) {
@@ -33,13 +34,10 @@ Router.post('/usuarios', function (req, res, next) {
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
     Query = Usuario.findById(id);
-    Query.populate({
-        path: 'usuario',
-        select: '-contraseña',
-        options: {sort: {apellido:1}}
-        }); 
     Query.exec(function (err, usuario) {
         if (!err) {
+            usuario.contraseña = undefined
+            usuario.pwd = undefined
             res.json(usuario);
         }
     });
@@ -51,7 +49,8 @@ Router.put('/usuarios/:id', function (req, res) {
     Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
             if (usuario) {
-                usuario.pwd = undefined;
+                usuario.pwd = undefined
+                usuario.contraseña = undefined
                 res.json(usuario)
             } else {
                 next(new RestError('recurso no encontrado', 404));
