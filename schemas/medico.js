@@ -15,7 +15,8 @@ const medicoSchema = Persona.discriminator('Medico', new Schema({
     }],
     puntuacion: {
         type: Number,
-        match: [/^([1-9]|10)$/, 'Puntación invalida. Se espera valor del 1 al 10']
+        min: 1,
+        max: 10
     },
     comentarios: [{
         type: Schema.Types.ObjectId,

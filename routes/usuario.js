@@ -43,7 +43,7 @@ Router.get('/usuarios/:id', function (req, res) {
 });
 
 // ACTUALIZAR USUARIO
-Router.put('/usuarios/:id', function (req, res) {
+Router.put('/usuarios/:id', function (req, res, next) {
     const id = req.params.id;
     Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
@@ -54,11 +54,17 @@ Router.put('/usuarios/:id', function (req, res) {
                 next(new RestError('recurso no encontrado', 404));
             }
         } else {
-            errors = {};
-            for (const key in err.errors) {
-                errors[key] = err.errors[key].message;
+            if (err.code == 11000) {
+                next(new RestError(err.message, 409));
+            } else {
+                errors = {};
+                for (const key in err.errors) {
+                    if (err.errors[key].constructor.name != 'ValidationError') {
+                        errors[key] = err.errors[key].message;
+                    }
+                }
+                next(new RestError(errors, 400));
             }
-            next(new RestError(errors, 400));
         }
     });
 });
