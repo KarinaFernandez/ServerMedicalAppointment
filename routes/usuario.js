@@ -24,7 +24,7 @@ Router.post('/usuarios', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
-            doc.pwd = undefined;
+            doc.contraseña = undefined;
             res.json(doc);
         }
     });
@@ -48,7 +48,6 @@ Router.put('/usuarios/:id', function (req, res) {
     Usuario.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, usuario) {
         if (!err) {
             if (usuario) {
-                usuario.pwd = undefined
                 usuario.contraseña = undefined
                 res.json(usuario)
             } else {

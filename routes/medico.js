@@ -23,8 +23,41 @@ Router.post('/medicos', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
-            doc.pwd = undefined; 
+            doc.contraseña = undefined; 
             res.json(doc);
+        }
+    });
+});
+
+// OBTENER MEDICO por ID
+Router.get('/medicos/:id', function (req, res) {
+    const id = req.params.id;
+    Query = Medico.findById(id);
+    Query.exec(function (err, medico) {
+        if (!err) {
+            medico.contraseña = undefined
+            res.json(medico);
+        }
+    });
+});
+
+// ACTUALIZAR MEDICO
+Router.put('/medicos/:id', function (req, res) {
+    const id = req.params.id;
+    Medico.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, medico) {
+        if (!err) {
+            if (medico) {
+                medico.contraseña = undefined
+                res.json(medico)
+            } else {
+                next(new RestError('medico no encontrado', 404));
+            }
+        } else {
+            errors = {};
+            for (const key in err.errors) {
+                errors[key] = err.errors[key].message;
+            }
+            next(new RestError(errors, 400));
         }
     });
 });
