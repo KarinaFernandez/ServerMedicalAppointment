@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const RestError = require('../rest-error');
 const Router = express.Router();
 
-const Reserva = require('../schemas/reserva');
+const Reserva =  mongoose.model('Reserva', require('../schemas/reserva')); 
 
 // CREAR RESERVA
 Router.post('/reservas', function (req, res, next) {
