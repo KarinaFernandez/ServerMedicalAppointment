@@ -29,16 +29,6 @@ Router.post('/medicos', function (req, res, next) {
     });
 });
 
-// OBTENER MEDICOS
-Router.get('/medicos', function (req, res) {
-    Query.exec(function (err, medicos) {
-        if (!err) {
-            medicos.contraseña = undefined
-            res.json(medicos);
-        }
-    });
-});
-
 // OBTENER MEDICO por ID
 Router.get('/medicos/:id', function (req, res) {
     const id = req.params.id;
