@@ -1,4 +1,5 @@
 const mongoose  = require('mongoose'); 
+const notaSchema = require('./nota');
 const Schema    = mongoose.Schema;
 
 const reservaSchema = new Schema({
@@ -12,12 +13,6 @@ const reservaSchema = new Schema({
             message: props => `${props.value} la fecha no es valida`
         }
     },
-    // hora: {
-    //     type: Date,
-    //     required: [true, 'Fecha de reserva requerida'],
-    // }
-    
-    // DEBERIA OBTENER EL USER LOGEADO (?)
     usuario: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
@@ -26,18 +21,9 @@ const reservaSchema = new Schema({
     medico: {
         type: Schema.Types.ObjectId,
         ref: 'Medico',
-        required: [true, 'Medico requerido'],
-        validate :{
-            validator : function(value){
-                return value.puntuacion < 1;
-            },
-            message: props => `No se puede realizar reserva para el medico seleccionado`
-        },
+        required: [true, 'Medico requerido']
     },
-    notas: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Nota'
-    }]
+    notas: [notaSchema]
 });
 
 module.exports = reservaSchema; 

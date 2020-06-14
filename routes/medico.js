@@ -50,7 +50,7 @@ Router.put('/medicos/:id', function (req, res, next) {
                 medico.contraseña = undefined
                 res.json(medico)
             } else {
-                next(new RestError('medico no encontrado', 404));
+                next(new RestError('Medico no encontrado', 404));
             }
         } else {
             if (err.code == 11000) {
