@@ -30,7 +30,6 @@ Router.post('/reservas', function (req, res, next) {
 // OBTENER RESERVA by ID
 Router.get('/reservas/:id', function (req, res, next) {
     const id = req.params.id;
-    let match = {};
 
     Query = Reserva.findById(id);
     Query.exec(function (err, reserva) {
@@ -38,18 +37,6 @@ Router.get('/reservas/:id', function (req, res, next) {
             res.json(reserva);
         } else {
             next(new RestError('recurso no encontrado', 404));
-        }
-    });
-});
-
-// // OBTENER RESERVAS POR FECHA DE NOTA
-Router.get('/notas/reserva', function (req, res, next) {
-    const fecha = req.query.fecha;
-    Query = Reserva.find({ 'notas.fecha': { $lt: fecha } })
-
-    Query.exec(function (error, reservas) {
-        if(!error) {
-            res.json(reservas);
         }
     });
 });
@@ -76,6 +63,30 @@ Router.post('/reservas/:id', function (req, res, next) {
                 }
                 next(new RestError(errors, 400));
             }
+        }
+    });
+});
+
+// OBTENER RESERVAS POR FECHA DE NOTA
+Router.get('/notas/reserva', function (req, res, next) {
+    const fecha = req.query.fecha;
+    Query = Reserva.find({ 'notas.fecha': { $lt: fecha } })
+
+    Query.exec(function (error, reservas) {
+        if(!error) {
+            res.json(reservas);
+        }
+    });
+});
+
+// OBTENER RESERVAS, NOTAS Y SINTOMAS DE UN USUARIO
+Router.get('/historial', function (req, res, next) {
+    const usuario = req.query.usuario;
+    Query = Reserva.find({ usuario: usuario})
+
+    Query.exec(function (error, reservas) {
+        if(!error) {
+            res.json(reservas);
         }
     });
 });
