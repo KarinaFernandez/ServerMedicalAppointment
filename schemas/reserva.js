@@ -29,7 +29,7 @@ const reservaSchema = new Schema({
         required: [true, 'Medico requerido'],
         validate :{
             validator : function(value){
-                return value.puntaje < 1;
+                return value.puntuacion < 1;
             },
             message: props => `No se puede realizar reserva para el medico seleccionado`
         },
