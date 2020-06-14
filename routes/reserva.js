@@ -7,6 +7,12 @@ const Reserva =  mongoose.model('Reserva', require('../schemas/reserva'));
 
 // CREAR RESERVA
 Router.post('/reservas', function (req, res, next) {
+    // const medico = req.body.medico;
+    // if (medico.puntaje < 6) {
+
+    // }
+    // console.log(medico);
+
     Res = new Reserva(req.body);
 
     Res.save(function (err, reserva) {
