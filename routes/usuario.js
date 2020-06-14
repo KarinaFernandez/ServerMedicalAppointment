@@ -37,7 +37,6 @@ Router.get('/usuarios/:id', function (req, res) {
     Query.exec(function (err, usuario) {
         if (!err) {
             usuario.contraseña = undefined
-            usuario.pwd = undefined
             res.json(usuario);
         }
     });
