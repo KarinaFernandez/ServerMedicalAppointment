@@ -2,10 +2,12 @@ const express   = require('express');
 const app       = express();
 const mongoose = require('mongoose'); 
 const RestError = require('./rest-error');
+
 const usuario      = require('./routes/usuario');
 const login      = require('./routes/login');
 const medico      = require('./routes/medico');
 const comentario      = require('./routes/comentario');
+const reserva      = require('./routes/reserva');
 const jwt          = require('jsonwebtoken');
 
 require('dotenv').config(); 
@@ -59,6 +61,7 @@ app.use(usuario);
 app.use(login);
 app.use(medico);
 app.use(comentario);
+app.use(reserva);
 
 app.use((err,req,res,next) => {
     res.status(err instanceof RestError? err.status: 500);
