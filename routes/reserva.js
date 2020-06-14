@@ -27,3 +27,5 @@ Router.post('/reservas', function (req, res, next) {
         }
     });
 });
+
+module.exports = Router;
