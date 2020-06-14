@@ -34,7 +34,7 @@ const reservaSchema = new Schema({
             message: props => `No se puede realizar reserva para el medico seleccionado`
         },
     },
-    nota: [{
+    notas: [{
         type: Schema.Types.ObjectId,
         ref: 'Nota'
     }]
