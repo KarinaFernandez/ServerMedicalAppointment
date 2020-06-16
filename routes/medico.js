@@ -24,6 +24,8 @@ Router.post('/medicos', function (req, res, next) {
             }
         } else {
             doc.contraseña = undefined;
+            doc.especialidad = undefined;
+            doc.comentarios = undefined;
             res.json(doc);
         }
     });
@@ -32,7 +34,7 @@ Router.post('/medicos', function (req, res, next) {
 // OBTENER MEDICO por ID
 Router.get('/medicos/:id', function (req, res) {
     const id = req.params.id;
-    Query = Medico.findById(id);
+    Query = Medico.findById(id)
     Query.exec(function (err, medico) {
         if (!err) {
             medico.contraseña = undefined
@@ -64,6 +66,20 @@ Router.put('/medicos/:id', function (req, res, next) {
                 }
                 next(new RestError(errors, 400));
             }
+        }
+    });
+});
+
+// BUSCAR ESPECIALIDAD por nombre 
+Router.get('/especialidades/medicos', function (req, res, next) {
+    const nombre = req.query.nombre;
+    Query = Medico.find({
+        'especialidades.nombre': {$eq: nombre }
+    }).populate('-especialidades');
+
+    Query.exec(function (err, medicos) {
+        if (!err) {
+            res.json(medicos);
         }
     });
 });

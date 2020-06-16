@@ -73,19 +73,7 @@ Router.get('/notas/reserva', function (req, res, next) {
     Query = Reserva.find({ 'notas.fecha': { $lt: fecha } })
 
     Query.exec(function (error, reservas) {
-        if(!error) {
-            res.json(reservas);
-        }
-    });
-});
-
-// OBTENER RESERVAS, NOTAS Y SINTOMAS DE UN USUARIO
-Router.get('/historial', function (req, res, next) {
-    const usuario = req.query.usuario;
-    Query = Reserva.find({ usuario: usuario})
-
-    Query.exec(function (error, reservas) {
-        if(!error) {
+        if (!error) {
             res.json(reservas);
         }
     });

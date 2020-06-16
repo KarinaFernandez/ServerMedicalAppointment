@@ -9,6 +9,8 @@ const medico      = require('./routes/medico');
 const comentario      = require('./routes/comentario');
 const reserva      = require('./routes/reserva');
 const sintoma      = require('./routes/sintoma');
+const especialidad      = require('./routes/especialidad');
+const historial      = require('./routes/historial');
 const jwt          = require('jsonwebtoken');
 
 // require('dotenv').config(); 
@@ -67,6 +69,8 @@ app.use(medico);
 app.use(comentario);
 app.use(reserva);
 app.use(sintoma);
+app.use(especialidad);
+app.use(historial);
 
 app.use((err,req,res,next) => {
     res.status(err instanceof RestError? err.status: 500);

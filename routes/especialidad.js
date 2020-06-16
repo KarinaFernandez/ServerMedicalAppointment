@@ -1,14 +1,14 @@
-const express   = require('express');
-const mongoose  = require('mongoose'); 
+const express = require('express');
+const mongoose = require('mongoose');
 const RestError = require('../rest-error');
-const Router     = express.Router();
+const Router = express.Router();
 
-const Comentario = mongoose.model('Comentario', require('../schemas/comentario'));
+const Especialidad = mongoose.model('Especialidad', require('../schemas/especialidad'));
 
-// ALTA DE COMENTARIO
-Router.post('/comentarios', function (req, res, next) {
-    Com = new Comentario(req.body);
-    Com.save(function (err, comentario) {
+// ALTA DE ESPECIALIDAD
+Router.post('/especialidades', function (req, res, next) {
+    Esp = new Especialidad(req.body);
+    Esp.save(function (err, especialidad) {
         if (err) {
             if (err.code == 11000) {
                 next(new RestError(err.message, 409));
@@ -22,9 +22,9 @@ Router.post('/comentarios', function (req, res, next) {
                 next(new RestError(errors, 400));
             }
         } else {
-            res.json(comentario);
+            res.json(especialidad);
         }
     });
 });
-
+ 
 module.exports = Router;
