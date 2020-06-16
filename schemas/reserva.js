@@ -23,7 +23,10 @@ const reservaSchema = new Schema({
         ref: 'Medico',
         required: [true, 'Medico requerido']
     },
-    notas: [notaSchema]
+    notas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Nota'
+    }]
 });
 
 module.exports = reservaSchema; 
