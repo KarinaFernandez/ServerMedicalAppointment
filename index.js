@@ -12,7 +12,7 @@ const sintoma      = require('./routes/sintoma');
 const especialidad      = require('./routes/especialidad');
 const jwt          = require('jsonwebtoken');
 
-// require('dotenv').config(); 
+require('dotenv').config(); 
 
 // const authorize = function(req, res, next){
 //     if ('/login' == req.path){
@@ -42,13 +42,13 @@ const jwt          = require('jsonwebtoken');
 //     });
 // }
 
-// Conectar a DB local
+/* Conectar a DB local
 const uri = 'mongodb://localhost:27017/db';
 const options = {useUnifiedTopology:true,useNewUrlParser:true};
 mongoose.connect(uri,options); 
-
-// const uri = process.env.MONGODB_URI;
-// const options = {useNewUrlParser:true, useUnifiedTopology: true}; 
+*/
+const uri = process.env.MONGODB_URI;
+const options = {useNewUrlParser:true, useUnifiedTopology: true}; 
 
 //Evento
 mongoose.connect(uri, options).catch(error => {
@@ -76,7 +76,6 @@ app.use((err,req,res,next) => {
     res.json({error:err.message});
 });
 
-// process.env.PORT
-app.listen(3000, function(){
+app.listen(process.env.PORT, function(){
     console.log(`Escuchando puerto ${process.env.PORT}`);
 });
