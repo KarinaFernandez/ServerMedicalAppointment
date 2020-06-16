@@ -73,13 +73,39 @@ Router.put('/medicos/:id', function (req, res, next) {
 // BUSCAR ESPECIALIDAD por nombre 
 Router.get('/especialidades/medicos', function (req, res, next) {
     const nombre = req.query.nombre;
-    Query = Medico.find({
-        'especialidades.nombre': {$eq: nombre }
-    }).populate('-especialidades');
+    Query = Medico.find({ 'especialidades.nombre': { $eq: nombre } }).sort({ puntuacion: 1 })
 
     Query.exec(function (err, medicos) {
         if (!err) {
             res.json(medicos);
+        } else {
+            errors = {};
+            for (const key in err.errors) {
+                if (err.errors[key].constructor.name != 'ValidationError') {
+                    errors[key] = err.errors[key].message;
+                }
+            }
+            next(new RestError(errors, 400));
+        }
+    });
+});
+
+// OBTENER COMENTARIOS DE UN MEDICO
+Router.get('/comentarios/medicos', function (req, res, next) {
+    const id = req.query.id;
+    Query = Medico.findById(id).populate('comentarios')
+
+    Query.exec(function (err, medico) {
+        if (!err) {
+            res.json(medico);
+        } else {
+            errors = {};
+            for (const key in err.errors) {
+                if (err.errors[key].constructor.name != 'ValidationError') {
+                    errors[key] = err.errors[key].message;
+                }
+            }
+            next(new RestError(errors, 400));
         }
     });
 });

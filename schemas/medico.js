@@ -9,21 +9,18 @@ const medicoSchema = Persona.discriminator('Medico', new Schema({
         type: String,
         required: [true, 'requerido'],
     },
-    especialidades: [
-    //     {
-    //     type: Schema.Types.ObjectId,
-    //     ref: 'Especialidad'
-    // }
-],
+    especialidades: [],
     puntuacion: {
         type: Number,
         min: 1,
         max: 10
     },
-    comentarios: [{
+    comentarios: [
+        {
         type: Schema.Types.ObjectId,
         ref: 'Comentario'
-    }],
+    }
+],
     centroMedico: {
         type: String,
         required: [true, 'requerido']
