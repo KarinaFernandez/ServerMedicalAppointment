@@ -47,8 +47,20 @@ Router.post('/reservas/:id', function (req, res, next) {
     Reserva.findByIdAndUpdate(id, { $push: req.body }, { new: true, runValidators: true }, function (err, reserva) {
         if (!err) {
             if (reserva) {
-                reserva.populate('notas')
-                res.json(reserva)
+                Query = Reserva.findById(id).populate('notas')
+                Query.exec(function (err, reserva) {
+                    if (!err) {
+                        res.json(reserva);
+                    } else {
+                        errors = {};
+                        for (const key in err.errors) {
+                            if (err.errors[key].constructor.name != 'ValidationError') {
+                                errors[key] = err.errors[key].message;
+                            }
+                        }
+                        next(new RestError(errors, 400));
+                    }
+                });
             } else {
                 next(new RestError('Reserva no encontrada', 404));
             }
