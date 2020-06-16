@@ -44,23 +44,10 @@ Router.get('/reservas/:id', function (req, res, next) {
 // AGREGAR NOTA A RESERVA
 Router.post('/reservas/:id', function (req, res, next) {
     const id = req.params.id;
-    Reserva.findByIdAndUpdate(id, { $push: req.body }, { new: true, runValidators: true }, function (err, reserva) {
+    Reserva.findByIdAndUpdate(id, req.body, { new: true, runValidators: true }, function (err, reserva) {
         if (!err) {
             if (reserva) {
-                Query = Reserva.findById(id).populate('notas')
-                Query.exec(function (err, reserva) {
-                    if (!err) {
-                        res.json(reserva);
-                    } else {
-                        errors = {};
-                        for (const key in err.errors) {
-                            if (err.errors[key].constructor.name != 'ValidationError') {
-                                errors[key] = err.errors[key].message;
-                            }
-                        }
-                        next(new RestError(errors, 400));
-                    }
-                });
+                res.json(reserva)
             } else {
                 next(new RestError('Reserva no encontrada', 404));
             }
