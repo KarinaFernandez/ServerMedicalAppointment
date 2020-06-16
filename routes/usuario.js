@@ -33,10 +33,10 @@ Router.post('/usuarios', function (req, res, next) {
 // OBTENER USUARIO por ID
 Router.get('/usuarios/:id', function (req, res) {
     const id = req.params.id;
-    Query = Usuario.findById(id);
+    Query = Usuario.findById(id)
     Query.exec(function (err, usuario) {
         if (!err) {
-            usuario.contraseña = undefined
+            usuarios.contraseña = undefined
             res.json(usuario);
         }
     });
@@ -65,6 +65,26 @@ Router.put('/usuarios/:id', function (req, res, next) {
                 }
                 next(new RestError(errors, 400));
             }
+        }
+    });
+});
+
+// OBTENER HISTORIAL DE UN USUARIO
+Router.get('/historial/usuarios', function (req, res, next) {
+    const id = req.query.id;
+    Query = Usuario.findById(id).populate('reservas', '-__v').populate('sintomas', '-__v')
+
+    Query.exec(function (err, usuario) {
+        if (!err) {
+            res.json(usuario);
+        } else {
+            errors = {};
+            for (const key in err.errors) {
+                if (err.errors[key].constructor.name != 'ValidationError') {
+                    errors[key] = err.errors[key].message;
+                }
+            }
+            next(new RestError(errors, 400));
         }
     });
 });

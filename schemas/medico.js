@@ -17,14 +17,14 @@ const medicoSchema = Persona.discriminator('Medico', new Schema({
     },
     comentarios: [
         {
-        type: Schema.Types.ObjectId,
-        ref: 'Comentario'
-    }
-],
+            type: Schema.Types.ObjectId,
+            ref: 'Comentario'
+        }
+    ],
     centroMedico: {
         type: String,
         required: [true, 'requerido']
     }
 }, options));
-  
+
 module.exports = medicoSchema;

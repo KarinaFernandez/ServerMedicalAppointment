@@ -30,7 +30,17 @@ const usuarioSchema = Persona.discriminator('Usuario', new Schema({
             values: ['ACTIVO', 'INACTIVO'],
             message: 'estado invalido, se espera ACTIVO, INACTIVO'
         }
-    }
+    },
+    sintomas: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'Sintoma'
+    }],
+    reservas: [
+        {
+        type: Schema.Types.ObjectId,
+        ref: 'Reserva'
+    }]
 }, options));
 
 module.exports = usuarioSchema;
