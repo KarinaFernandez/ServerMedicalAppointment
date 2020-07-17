@@ -11,9 +11,9 @@ const conn = mongoose.connection;
 Router.post('/login/',function(req,res,next){
     const usr = req.body.usr;
     let  pwd = req.body.pwd;
-    pwd = crypto.createHash('sha256').update(pwd).digest('hex');
-    conn.db.collection('usuarios', function (err, collection) {
-        collection.findOne({usr:usr, pwd:pwd}, function(err, doc){
+    // pwd = crypto.createHash('sha256').update(pwd).digest('hex');
+    conn.db.collection('personas', function (err, collection) {
+        collection.findOne({email:usr, contraseña:pwd}, function(err, doc){
             if(doc){
                 const token = jwt.sign(doc.usr, process.env.TOKEN_SECRET);
                 doc.pwd = undefined;
